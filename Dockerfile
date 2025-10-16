@@ -1,10 +1,8 @@
 FROM payara/server-full:latest
- 
-# Copy the WAR file into the autodeploy directory
-COPY bank.war $DEPLOY_DIR
- 
-# Expose the port Payara uses (default is 8080)
+
+# Copy the WAR file from the target directory
+COPY target/bank.war $DEPLOY_DIR
+
 EXPOSE 8080
- 
-# Start Payara in verbose mode
+
 CMD ["asadmin", "start-domain", "--verbose"]

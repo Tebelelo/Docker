@@ -1,14 +1,12 @@
-# Use Payara Full Server base image
 FROM payara/server-full:latest
 
-# Disable Hazelcast clustering to avoid noisy logs and unnecessary attempts to join a cluster
 RUN asadmin set-config-property --target=server-config cluster.enabled=false
 
-# Copy your WAR file into Payara's autodeploy directory
 COPY target/bank.war $DEPLOY_DIR
+COPY start.sh /start.sh
 
-# Expose the default Payara port
+RUN chmod +x /start.sh
+
 EXPOSE 8080
 
-# Start the domain in verbose mode
-CMD ["asadmin", "start-domain", "--verbose"]
+CMD ["/start.sh"]

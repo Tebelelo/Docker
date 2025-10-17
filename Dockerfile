@@ -1,13 +1,13 @@
 FROM payara/server-full:latest
 
-# Copy the WAR file to the deployment directory
+# Copy WAR to deployment directory
 COPY target/bank.war $DEPLOY_DIR
 
-# Copy the start script without chmod (we'll run it with bash)
+# Copy start script
 COPY start.sh /start.sh
 
-# Expose default Payara HTTP port
+# Expose port 8080
 EXPOSE 8080
 
-# Run the start.sh script using bash explicitly
+# Run start.sh via bash
 CMD ["bash", "/start.sh"]

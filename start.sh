@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e
 
-# Default to 8080 if PORT not set
+# Use default port 8080 unless overridden by environment variable PORT
 PORT=${PORT:-8080}
 
-# Update Payara HTTP listener to listen on $PORT
+# Disable clustering and set HTTP listener port offline (domain must be stopped)
+asadmin set-config-property --target=server-config cluster.enabled=false
 asadmin set configs.config.server-config.network-config.network-listeners.network-listener.http-listener-1.port=$PORT
 
-# Start domain in verbose mode
+# Start Payara domain in the foreground with verbose logging
 exec asadmin start-domain --verbose

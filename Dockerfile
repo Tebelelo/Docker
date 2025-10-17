@@ -1,18 +1,14 @@
 FROM payara/server-full:latest
 
-# Disable clustering at build time (optional, but let's keep runtime config in start.sh)
-# You can remove this if you only want to do it at runtime
-# RUN asadmin set-config-property --target=server-config cluster.enabled=false
-
-# Copy your WAR file to the deployment directory
+# Copy your WAR file
 COPY target/bank.war $DEPLOY_DIR
 
-# Copy the startup script
+# Copy start.sh from the same directory as Dockerfile
 COPY start.sh /start.sh
-RUN chmod +x /start.sh
 
-# Expose the port Payara will listen on
+# Make sure the start.sh file exists before chmod
+RUN [ -f /start.sh ] && chmod +x /start.sh
+
 EXPOSE 8080
 
-# Run your start script
 CMD ["/start.sh"]

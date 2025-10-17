@@ -1,14 +1,13 @@
 FROM payara/server-full:latest
 
-# Copy your WAR file
+# Copy the WAR file to the deployment directory
 COPY target/bank.war $DEPLOY_DIR
 
-# Copy start.sh from the same directory as Dockerfile
+# Copy the start script without chmod (we'll run it with bash)
 COPY start.sh /start.sh
 
-# Make sure the start.sh file exists before chmod
-RUN [ -f /start.sh ] && chmod +x /start.sh
-
+# Expose default Payara HTTP port
 EXPOSE 8080
 
-CMD ["/start.sh"]
+# Run the start.sh script using bash explicitly
+CMD ["bash", "/start.sh"]
